@@ -1,0 +1,18 @@
+# Experiment A1: non-contrast structural phases only
+# Clinical hypothesis: T2WI characterises fluid/solid lesions; DWI reflects
+# diffusion restriction (malignancy correlates with restricted diffusion).
+name: ablation_t2wi_dwi
+phases:
+  - T2WI
+  - DWI
+
+manifest: data/manifest.csv
+cache_dir: data_cache
+seed: 42
+
+batch_size: 32
+learning_rate: 0.001
+weight_decay: 0.01
+max_epochs: 60
+early_stopping_patience: 10
+num_workers: 4

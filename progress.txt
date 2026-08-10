@@ -1,0 +1,120 @@
+
+# LLD-MMRI liver lesion POC:progress log
+
+## Investigation (pre-build, required by workflow)
+
+Date: 2026-08-10
+
+### Data confirmed (not assumed)
+
+**Source:** LLD-MMRI-MedSAM2/ local mirror, 3984 image/label .nii.gz pairs
+
+**Patient count:** 498 patients, exactly 8 phases each (3984 = 498 × 8 ✓)
+
+**Phase names (filename convention):**
+  C-pre, C+A, C+V, C+Delay, T2WI, DWI, InPhase, OutPhase
+  Note: JSON uses 'In Phase' / 'Out Phase' (with space); filenames use 'InPhase' / 'OutPhase'.
+
+**Category mapping** (from LLD_MMRI_Annotation.json → Category_info):
+  0 = Hepatic_hemangioma      (BENIGN)
+  1 = Intrahepatic_cholangiocarcinoma (MALIGNANT)
+  2 = Hepatic_abscess         (BENIGN)
+  3 = Hepatic_metastasis      (MALIGNANT)
+  4 = Hepatic_cyst            (BENIGN)
+  5 = FOCAL_NODULAR_HYPERPLASIA (BENIGN)
+  6 = Hepatocellular_carcinoma (MALIGNANT)
+
+**Patient counts per class:**
+  0 (hemangioma, B):  79
+  1 (ICC, M):         58
+  2 (abscess, B):     54
+  3 (metastasis, M):  51
+  4 (cyst, B):        53
+  5 (FNH, B):         46
+  6 (HCC, M):        157
+  Binary: Benign=232, Malignant=266
+
+**Middle-digit verification (HARD ASSERTION):**
+  The filename middle digit (e.g., _1_ in MR-398189_1_C+A_0000.nii.gz) equals
+  the `category` field in the JSON lesion annotation for ALL 498 patients (100%).
+  Verified by cross-checking every patient in both directions.
+  Code: src/build_manifest.py asserts this for the full dataset.
+
+**Patient ID normalisation:**
+  JSON uses both 'MR-XXXXXX' (with hyphen, 3 patients) and 'MRXXXXXX' (no hyphen, 495 patients).
+  Image filenames similarly mixed. After stripping hyphens → 498 unique IDs, zero overlap.
+  Conclusion: these are the SAME naming convention with inconsistent hyphens.
+  Code: norm_patient_id() strips hyphens + spaces + uppercases.
+
+**Official split in JSON:** NONE. JSON top-level keys are only 'Annotation_info' and 'Category_info'.
+  Action: construct seed=42 stratified patient-level split (target ≈63/16/21%).
+
+**Label pairing rule (confirmed):**
+  Image: {patient_id}_{class}_{phase}_0000.nii.gz
+  Label: {patient_id}_{class}_{phase}.nii.gz
+  (strip _0000 from the image filename)
+
+**Volume geometry (CRITICAL for compute plan):**
+  Sampled 6 volumes:
+  - Contrast phases (C-pre, C+A, C+V, C+Delay), InPhase, T2WI, OutPhase:
+    shape (512, 512, 72), spacing ~(0.74, 0.74, 2.6) mm
+  - DWI: shape (256, 256, 24), spacing ~(1.48, 1.48, 8.0) mm
+  These are FULL-ABDOMEN volumes. Lesion mask is binary 0/1, covers ~0.1% of voxels.
+  Action: ROI cropping is essential before any CNN. build_cache.py crops to mask bbox
+  + 20% margin per axis, then resamples to 32×64×64, z-scores, saves float16 .npy.
+
+**Cache size estimate:**
+  3984 tensors × 32×64×64 × float16 (2 bytes) = 3984 × 262,144 B ≈ 1.04 GB ✓
+
+---
+
+## Step 0:.gitignore
+Status: DONE (2026-08-10)
+Evidence: LLD-MMRI-MedSAM2/, data/, data_cache/, outputs/runs/ absent from git status.
+
+## Step 1:Manifest
+Status: DONE (2026-08-10)
+Evidence: build_manifest.py ran on all 498 patients.
+  - ASSERTION PASSED: filename middle digit == JSON category for all 498 patients
+  - Output: data/manifest.csv (498 rows)
+  - Class counts: 0=79, 1=58, 2=54, 3=51, 4=53, 5=46, 6=157; binary B=232 M=266
+
+## Step 2:Splits
+Status: DONE (2026-08-10)
+Evidence: check_splits.py ran with stratified seed=42 split.
+  - ASSERTION PASSED: zero patient overlap between all split pairs
+  - Sizes: train=313, val=80, test=105 (≈63%/16%/21%)
+  - Output: reports/split_report.json; provenance recorded.
+
+## Step 3:ROI cache
+Status: PENDING (full dataset designed for Kaggle/Colab GPU, ~45 min on T4)
+Smoke test (10 patients): PASSED
+  - 80 tensors (10 patients × 8 phases), 0.021 GB, all assertions passed.
+
+## Step 4:Dataset + model
+Status: DONE (2026-08-10)
+Evidence:
+  - Model forward pass: 8-phase=1,688,098 params, 1-phase=1,229,346 params, all correct shapes.
+  - Dataset + collate_fn: batch (2, 1, 32, 64, 64) per phase, labels correct.
+  - Smoke train (2 epochs, 2 batches, CPU): no NaN, checkpoint saved, predictions generated.
+
+## Step 5:Training
+Status: PENDING (full training on Kaggle/Colab GPU, see run_experiments.ipynb)
+Configs written:
+  Experiment A (ablation): ablation_t2wi_dwi, ablation_pre_a, ablation_contrast_4phase, ablation_all_8
+  Experiment B (per-phase): per_phase_{C_pre,C_A,C_V,C_Delay,T2WI,DWI,InPhase,OutPhase}
+  Smoke: smoke_test (passed)
+
+## Step 6:Evaluation
+Status: PENDING (code written and verified on smoke run)
+src/evaluate.py: bootstrap CIs, Youden-J threshold, ECE, calibration figure, CSV + MD reports.
+src/fill_readme.py: fills <!-- RESULT: name --> placeholders from results_summary.csv.
+
+## Step 7:Grad-CAM
+Status: PENDING (code written and verified on smoke run:2 montage PNGs generated)
+src/gradcam.py: Grad-CAM on last ConvBlock3D, 3 axial slices, failure_analysis.md written.
+
+## Step 8:README
+Status: TEMPLATE DONE (2026-08-10)
+README.md written with <!-- RESULT: name --> placeholders for all metrics.
+Run python src/fill_readme.py after Kaggle experiments to populate numbers.

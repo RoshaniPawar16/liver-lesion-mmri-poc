@@ -1,0 +1,12 @@
+# Experiment B: single-phase, T1 in-phase
+name: per_phase_InPhase
+phases: [InPhase]
+manifest: data/manifest.csv
+cache_dir: data_cache
+seed: 42
+batch_size: 32
+learning_rate: 0.001
+weight_decay: 0.01
+max_epochs: 60
+early_stopping_patience: 10
+num_workers: 4

@@ -1,0 +1,19 @@
+# Smoke-test config: 2 phases, 2 epochs, 2 batches per epoch, batch_size=4.
+# Designed to complete in < 5 min on CPU with 10-patient cache subset.
+# Tests the full pipeline: manifest → cache → train → predict → evaluate.
+name: smoke_test
+phases:
+  - C-pre
+  - C+A
+
+manifest: data/manifest.csv
+cache_dir: data_cache
+seed: 42
+
+batch_size: 4
+learning_rate: 0.001
+weight_decay: 0.01
+max_epochs: 2
+early_stopping_patience: 10
+max_batches: 2          # limit batches per epoch for speed
+num_workers: 0          # no multiprocessing on CPU smoke test

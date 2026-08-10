@@ -1,0 +1,21 @@
+# Experiment A3: all four dynamic contrast phases
+# Captures full enhancement curve: pre → arterial → venous → delayed.
+# The washout pattern (arterial enhancement then venous/delayed washout)
+# is the canonical dynamic criterion for HCC.
+name: ablation_contrast_4phase
+phases:
+  - C-pre
+  - C+A
+  - C+V
+  - C+Delay
+
+manifest: data/manifest.csv
+cache_dir: data_cache
+seed: 42
+
+batch_size: 32
+learning_rate: 0.001
+weight_decay: 0.01
+max_epochs: 60
+early_stopping_patience: 10
+num_workers: 4

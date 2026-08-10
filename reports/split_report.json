@@ -1,0 +1,140 @@
+{
+  "provenance": "constructed: stratified patient-level split, seed=42, class_id used for stratification (7 classes). No official split exists in LLD_MMRI_Annotation.json.",
+  "n_train": 313,
+  "n_val": 80,
+  "n_test": 105,
+  "split_tables": {
+    "train": [
+      {
+        "class_id": 0,
+        "class_name": "Hepatic_hemangioma",
+        "binary_label": 0,
+        "count": 49
+      },
+      {
+        "class_id": 1,
+        "class_name": "Intrahepatic_cholangiocarcinoma",
+        "binary_label": 1,
+        "count": 37
+      },
+      {
+        "class_id": 2,
+        "class_name": "Hepatic_abscess",
+        "binary_label": 0,
+        "count": 34
+      },
+      {
+        "class_id": 3,
+        "class_name": "Hepatic_metastasis",
+        "binary_label": 1,
+        "count": 32
+      },
+      {
+        "class_id": 4,
+        "class_name": "Hepatic_cyst",
+        "binary_label": 0,
+        "count": 33
+      },
+      {
+        "class_id": 5,
+        "class_name": "FOCAL_NODULAR_HYPERPLASIA",
+        "binary_label": 0,
+        "count": 29
+      },
+      {
+        "class_id": 6,
+        "class_name": "Hepatocellular_carcinoma",
+        "binary_label": 1,
+        "count": 99
+      }
+    ],
+    "val": [
+      {
+        "class_id": 0,
+        "class_name": "Hepatic_hemangioma",
+        "binary_label": 0,
+        "count": 13
+      },
+      {
+        "class_id": 1,
+        "class_name": "Intrahepatic_cholangiocarcinoma",
+        "binary_label": 1,
+        "count": 9
+      },
+      {
+        "class_id": 2,
+        "class_name": "Hepatic_abscess",
+        "binary_label": 0,
+        "count": 9
+      },
+      {
+        "class_id": 3,
+        "class_name": "Hepatic_metastasis",
+        "binary_label": 1,
+        "count": 8
+      },
+      {
+        "class_id": 4,
+        "class_name": "Hepatic_cyst",
+        "binary_label": 0,
+        "count": 9
+      },
+      {
+        "class_id": 5,
+        "class_name": "FOCAL_NODULAR_HYPERPLASIA",
+        "binary_label": 0,
+        "count": 7
+      },
+      {
+        "class_id": 6,
+        "class_name": "Hepatocellular_carcinoma",
+        "binary_label": 1,
+        "count": 25
+      }
+    ],
+    "test": [
+      {
+        "class_id": 0,
+        "class_name": "Hepatic_hemangioma",
+        "binary_label": 0,
+        "count": 17
+      },
+      {
+        "class_id": 1,
+        "class_name": "Intrahepatic_cholangiocarcinoma",
+        "binary_label": 1,
+        "count": 12
+      },
+      {
+        "class_id": 2,
+        "class_name": "Hepatic_abscess",
+        "binary_label": 0,
+        "count": 11
+      },
+      {
+        "class_id": 3,
+        "class_name": "Hepatic_metastasis",
+        "binary_label": 1,
+        "count": 11
+      },
+      {
+        "class_id": 4,
+        "class_name": "Hepatic_cyst",
+        "binary_label": 0,
+        "count": 11
+      },
+      {
+        "class_id": 5,
+        "class_name": "FOCAL_NODULAR_HYPERPLASIA",
+        "binary_label": 0,
+        "count": 10
+      },
+      {
+        "class_id": 6,
+        "class_name": "Hepatocellular_carcinoma",
+        "binary_label": 1,
+        "count": 33
+      }
+    ]
+  }
+}
