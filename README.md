@@ -11,6 +11,23 @@ This is a proof-of-concept study of benign versus malignant liver lesion classif
 
 ---
 
+## Pipeline at a glance
+
+```mermaid
+flowchart LR
+    A["LLD-MMRI raw, 498 pt x 8 phases"] --> B["annotation JSON verified"]
+    B --> C["patient split, 313/80/105, seed 42"]
+    M["MedSAM2 masks"] -->|"masks used for cropping only"| D["ROI crop, bbox+20%, 32x64x64, float16"]
+    C --> D
+    D --> E["shared-encoder 3D CNN, late fusion"]
+    E --> F["12 configs, 4 ablation + 8 per-phase"]
+    F --> G["test predictions, n=105"]
+    G --> H["bootstrap CIs, calibration, Grad-CAM"]
+    H --> I["4 contrast phases match 8; arterial weak"]
+```
+
+---
+
 ## Clinical framing
 
 Dynamic contrast-enhanced MRI is the primary non-invasive tool for liver lesion characterisation.
@@ -42,6 +59,8 @@ exact counts in `reports/split_report.json`.
 
 ## Methods
 
+The following choices apply uniformly across all 12 experimental configurations.
+
 | Component | Choice | Rationale |
 |-----------|--------|-----------|
 | ROI crop | Mask bbox + 20 % margin, resampled to 32 x 64 x 64, bilinear | Lesion = 0.1 % of full-abdomen volume |
@@ -58,6 +77,8 @@ Augmentation (train only): random axis flips, +-2-voxel translation, +-10 % inte
 ---
 
 ## Results
+
+Two experiments apply these configurations to the held-out test set of 105 patients: a phase ablation study and a single-phase sweep.
 
 ### Phase ablation: Experiment A (headline)
 
@@ -128,6 +149,8 @@ Axial-slice montages were generated from the 8-phase model (`outputs/runs/ablati
 ---
 
 ## Reproduce
+
+All results in this repository are fully reproducible from raw data using the following commands.
 
 ```bash
 # Build and smoke-test (CPU, under 5 min)
