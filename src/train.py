@@ -159,10 +159,15 @@ def main() -> None:
     parser.add_argument("--config", required=True, help="Path to YAML config")
     parser.add_argument("--resume", action="store_true",
                         help="Resume from last_checkpoint.pt in the run dir")
+    parser.add_argument("--cache-dir", default=None,
+                        help="Override cache_dir from the YAML config")
     args = parser.parse_args()
 
     with open(args.config) as f:
         cfg: dict = yaml.safe_load(f)
+
+    if args.cache_dir is not None:
+        cfg["cache_dir"] = args.cache_dir
 
     set_seed(cfg["seed"])
 

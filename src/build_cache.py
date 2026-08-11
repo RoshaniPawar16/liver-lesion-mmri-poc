@@ -153,7 +153,7 @@ def main() -> None:
                 "class_id": row["class_id"],
                 "binary_label": row["binary_label"],
                 "split": row["split"],
-                "cache_path": str(out_path),
+                "cache_path": f"{pid}_{phase}.npy",  # relative to cache_dir
             })
             n_processed += 1
 
@@ -162,11 +162,11 @@ def main() -> None:
     idx_path = cache_dir / "cache_index.csv"
     idx_df.to_csv(idx_path, index=False)
 
-    # Report size
+    # Report size; cache_path is relative to cache_dir
     total_bytes = sum(
-        os.path.getsize(r["cache_path"])
+        os.path.getsize(cache_dir / r["cache_path"])
         for _, r in idx_df.iterrows()
-        if os.path.exists(r["cache_path"])
+        if (cache_dir / r["cache_path"]).exists()
     )
     total_gb = total_bytes / 1e9
     print(f"\nCached: {n_processed}  missing: {n_missing}  failed: {n_failed}")
