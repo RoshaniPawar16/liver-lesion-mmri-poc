@@ -88,6 +88,16 @@ Numbers are read directly from `reports/results_summary.csv`.
 
 ECE (best model): <!-- RESULT: best_ece -->
 
+### Interpretation
+
+**Headline.** The four dynamic contrast phases (C-pre, C+A, C+V, C+Delay) account for essentially all the discriminative signal in this dataset. The 8-phase and 4-phase contrast models reach identical AUROC (0.838); the 4-phase model also has better AUPRC and ECE (0.12 vs 0.20), so the four additional sequences (T2WI, DWI, InPhase, OutPhase) confer no measurable benefit at this sample size.
+
+**Per-phase pattern.** In single-phase ablations, delayed (C+Delay) and venous (C+V) phases rank among the strongest, while arterial alone (C+A) is among the weakest. This pattern is consistent with the pooled malignant class composition: HCC, ICC, and metastasis are all labelled malignant. Arterial hyperenhancement is a signature of HCC (the basis of LIRADS criteria) but is not characteristic of ICC or metastasis; delayed and venous phases capture washout, a feature shared more broadly across the pooled malignant classes. A classifier trained on the pooled label therefore extracts less discriminating information from arterial phase alone than from washout-phase images.
+
+**Calibration.** ECE is 0.20 (8-phase) and 0.12 (4-phase). Both models are miscalibrated; predicted probabilities are not suitable for risk communication without recalibration (e.g. isotonic regression or Platt scaling fitted on a dedicated calibration set).
+
+**Caveats.** Bootstrap 95% CIs overlap across most comparisons and no formal significance testing was performed; trends are described descriptively, not as established differences. The val-to-test AUROC gap reflects expected selection optimism from early stopping on validation AUROC.
+
 ### Grad-CAM and failure cases
 
 Montage PNGs are in `reports/figures/`. Failure observations are in `reports/failure_analysis.md`.
@@ -132,10 +142,10 @@ bash scripts/run_train.sh configs/ablation_all_8.yaml
 bash scripts/run_eval.sh
 ```
 
-**Hardware and wall-clock (approximate, single Kaggle T4):**
-- Cache build (3 984 volumes): approx. 45 min
-- Training per config (60 epochs, batch 32): approx. 40 min
-- All 12 configs: approx. 8 h total
+**Hardware and wall-clock (RTX 4060 Laptop GPU, 8 GB VRAM):**
+- Cache build (3 984 volumes): approx. 45 min (CPU-bound; machine-dependent)
+- Full 12-config training suite (`bash scripts/run_all_gpu.sh`): approx. 15 min
+- Evaluation (bootstrap CIs, calibration, Grad-CAM): approx. 2 min
 
 **Built over four evenings as a self-directed exercise to address a stated gap in my
 clinical-AI experience before the Cambridge RA application.**
