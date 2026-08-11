@@ -209,7 +209,7 @@ def main() -> None:
         lr=cfg["learning_rate"],
         weight_decay=cfg["weight_decay"],
     )
-    scaler = torch.amp.GradScaler(enabled=(device.type == "cuda"))
+    scaler = torch.cuda.amp.GradScaler(enabled=(device.type == "cuda"))
 
     # State
     start_epoch = 0
