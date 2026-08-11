@@ -1,0 +1,15 @@
+batch_size: 32
+cache_dir: data_cache
+early_stopping_patience: 10
+learning_rate: 0.001
+manifest: data/manifest.csv
+max_epochs: 60
+name: ablation_contrast_4phase
+num_workers: 4
+phases:
+- C-pre
+- C+A
+- C+V
+- C+Delay
+seed: 42
+weight_decay: 0.01

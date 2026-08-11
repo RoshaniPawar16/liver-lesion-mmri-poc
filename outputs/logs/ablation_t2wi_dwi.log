@@ -1,0 +1,57 @@
+=== ablation_t2wi_dwi ===
+Device: cuda  |  Run: ablation_t2wi_dwi  |  Phases: ['T2WI', 'DWI']
+Model parameters: 1,294,882
+Traceback (most recent call last):
+  File "/home/roshani/liver-lesion-mmri-poc/src/train.py", line 307, in <module>
+    main()
+  File "/home/roshani/liver-lesion-mmri-poc/src/train.py", line 212, in main
+    scaler = torch.amp.GradScaler(enabled=(device.type == "cuda"))
+             ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'torch.amp' has no attribute 'GradScaler'
+FAILED (exit 1)
+=== ablation_t2wi_dwi ===
+Device: cuda  |  Run: ablation_t2wi_dwi  |  Phases: ['T2WI', 'DWI']
+Model parameters: 1,294,882
+Ep   0  tr_loss=0.7003 auroc=0.6411  val_loss=0.6361 auroc=0.7569  2.1s
+  → new best val AUROC: 0.7569
+Ep   1  tr_loss=0.6215 auroc=0.7135  val_loss=0.5794 auroc=0.7757  1.3s
+  → new best val AUROC: 0.7757
+Ep   2  tr_loss=0.5803 auroc=0.7577  val_loss=0.7656 auroc=0.7594  1.3s
+Ep   3  tr_loss=0.5653 auroc=0.7773  val_loss=0.5547 auroc=0.7914  1.3s
+  → new best val AUROC: 0.7914
+Ep   4  tr_loss=0.5273 auroc=0.8123  val_loss=0.7224 auroc=0.7838  1.3s
+Ep   5  tr_loss=0.5465 auroc=0.7883  val_loss=0.6107 auroc=0.7782  1.2s
+Ep   6  tr_loss=0.5516 auroc=0.7933  val_loss=0.5484 auroc=0.7826  1.2s
+Ep   7  tr_loss=0.5727 auroc=0.7737  val_loss=0.6145 auroc=0.7851  1.3s
+Ep   8  tr_loss=0.5496 auroc=0.7922  val_loss=0.5416 auroc=0.7888  1.2s
+Ep   9  tr_loss=0.5481 auroc=0.7926  val_loss=0.6175 auroc=0.7879  1.3s
+Ep  10  tr_loss=0.5229 auroc=0.8237  val_loss=0.6153 auroc=0.7685  1.2s
+Ep  11  tr_loss=0.5251 auroc=0.8150  val_loss=0.5995 auroc=0.7863  1.3s
+Ep  12  tr_loss=0.5119 auroc=0.8344  val_loss=0.6705 auroc=0.6692  1.3s
+Ep  13  tr_loss=0.5370 auroc=0.8078  val_loss=0.5584 auroc=0.7945  1.2s
+  → new best val AUROC: 0.7945
+Ep  14  tr_loss=0.5199 auroc=0.8226  val_loss=0.5729 auroc=0.8014  1.3s
+  → new best val AUROC: 0.8014
+Ep  15  tr_loss=0.5195 auroc=0.8167  val_loss=0.5673 auroc=0.7945  1.3s
+Ep  16  tr_loss=0.4951 auroc=0.8447  val_loss=0.5998 auroc=0.8083  1.3s
+  → new best val AUROC: 0.8083
+Ep  17  tr_loss=0.4789 auroc=0.8516  val_loss=0.6972 auroc=0.7663  1.2s
+Ep  18  tr_loss=0.4790 auroc=0.8515  val_loss=0.5716 auroc=0.7989  1.3s
+Ep  19  tr_loss=0.4748 auroc=0.8472  val_loss=0.6121 auroc=0.7425  1.2s
+Ep  20  tr_loss=0.4988 auroc=0.8336  val_loss=0.5359 auroc=0.8264  1.3s
+  → new best val AUROC: 0.8264
+Ep  21  tr_loss=0.5048 auroc=0.8297  val_loss=0.5896 auroc=0.7932  1.3s
+Ep  22  tr_loss=0.4696 auroc=0.8592  val_loss=0.6048 auroc=0.7560  1.3s
+Ep  23  tr_loss=0.4874 auroc=0.8468  val_loss=0.5888 auroc=0.8183  1.3s
+Ep  24  tr_loss=0.5045 auroc=0.8448  val_loss=0.7511 auroc=0.7932  1.3s
+Ep  25  tr_loss=0.5177 auroc=0.8264  val_loss=0.5999 auroc=0.7870  1.3s
+Ep  26  tr_loss=0.4881 auroc=0.8432  val_loss=0.6000 auroc=0.8089  1.3s
+Ep  27  tr_loss=0.4659 auroc=0.8601  val_loss=0.5718 auroc=0.7679  1.3s
+Ep  28  tr_loss=0.4502 auroc=0.8718  val_loss=0.6201 auroc=0.7813  1.3s
+Ep  29  tr_loss=0.4324 auroc=0.8816  val_loss=0.6479 auroc=0.7873  1.3s
+Ep  30  tr_loss=0.4647 auroc=0.8593  val_loss=0.5757 auroc=0.8083  1.3s
+Early stopping at epoch 30 (patience=10)
+
+Predictions → outputs/runs/ablation_t2wi_dwi/predictions.csv
+Done.  Best val AUROC: 0.8264
+DONE

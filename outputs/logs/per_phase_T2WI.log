@@ -1,0 +1,50 @@
+=== per_phase_T2WI ===
+Device: cuda  |  Run: per_phase_T2WI  |  Phases: ['T2WI']
+Model parameters: 1,229,346
+Traceback (most recent call last):
+  File "/home/roshani/liver-lesion-mmri-poc/src/train.py", line 307, in <module>
+    main()
+  File "/home/roshani/liver-lesion-mmri-poc/src/train.py", line 212, in main
+    scaler = torch.amp.GradScaler(enabled=(device.type == "cuda"))
+             ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'torch.amp' has no attribute 'GradScaler'
+FAILED (exit 1)
+=== per_phase_T2WI ===
+Device: cuda  |  Run: per_phase_T2WI  |  Phases: ['T2WI']
+Model parameters: 1,229,346
+Ep   0  tr_loss=0.7171 auroc=0.6188  val_loss=0.6693 auroc=0.7425  1.1s
+  → new best val AUROC: 0.7425
+Ep   1  tr_loss=0.6604 auroc=0.6845  val_loss=0.6675 auroc=0.7538  0.7s
+  → new best val AUROC: 0.7538
+Ep   2  tr_loss=0.6374 auroc=0.7015  val_loss=0.7315 auroc=0.7600  0.7s
+  → new best val AUROC: 0.7600
+Ep   3  tr_loss=0.6320 auroc=0.7002  val_loss=0.7152 auroc=0.7581  0.7s
+Ep   4  tr_loss=0.6320 auroc=0.7062  val_loss=0.6309 auroc=0.7663  0.7s
+  → new best val AUROC: 0.7663
+Ep   5  tr_loss=0.6305 auroc=0.7074  val_loss=0.5924 auroc=0.7719  0.7s
+  → new best val AUROC: 0.7719
+Ep   6  tr_loss=0.5922 auroc=0.7439  val_loss=0.5705 auroc=0.7920  0.7s
+  → new best val AUROC: 0.7920
+Ep   7  tr_loss=0.6118 auroc=0.7267  val_loss=0.7136 auroc=0.7274  0.7s
+Ep   8  tr_loss=0.5993 auroc=0.7447  val_loss=0.8623 auroc=0.7845  0.7s
+Ep   9  tr_loss=0.5817 auroc=0.7653  val_loss=0.6548 auroc=0.8008  0.6s
+  → new best val AUROC: 0.8008
+Ep  10  tr_loss=0.5667 auroc=0.7711  val_loss=0.5878 auroc=0.7838  0.7s
+Ep  11  tr_loss=0.5620 auroc=0.7821  val_loss=0.6032 auroc=0.7970  0.7s
+Ep  12  tr_loss=0.5751 auroc=0.7722  val_loss=0.6538 auroc=0.8239  0.7s
+  → new best val AUROC: 0.8239
+Ep  13  tr_loss=0.5663 auroc=0.7891  val_loss=0.6654 auroc=0.7932  0.7s
+Ep  14  tr_loss=0.5320 auroc=0.8107  val_loss=0.5573 auroc=0.7989  0.7s
+Ep  15  tr_loss=0.5407 auroc=0.7954  val_loss=0.5900 auroc=0.7895  0.7s
+Ep  16  tr_loss=0.5624 auroc=0.7868  val_loss=0.7393 auroc=0.8114  0.7s
+Ep  17  tr_loss=0.5199 auroc=0.8347  val_loss=0.8788 auroc=0.7807  0.7s
+Ep  18  tr_loss=0.5083 auroc=0.8317  val_loss=0.7998 auroc=0.8020  0.7s
+Ep  19  tr_loss=0.5385 auroc=0.8037  val_loss=0.6470 auroc=0.6529  0.7s
+Ep  20  tr_loss=0.5064 auroc=0.8424  val_loss=0.5628 auroc=0.8001  0.7s
+Ep  21  tr_loss=0.5310 auroc=0.8126  val_loss=0.6469 auroc=0.7914  0.7s
+Ep  22  tr_loss=0.4868 auroc=0.8447  val_loss=0.6567 auroc=0.7820  0.7s
+Early stopping at epoch 22 (patience=10)
+
+Predictions → outputs/runs/per_phase_T2WI/predictions.csv
+Done.  Best val AUROC: 0.8239
+DONE

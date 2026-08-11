@@ -1,0 +1,12 @@
+batch_size: 32
+cache_dir: data_cache
+early_stopping_patience: 10
+learning_rate: 0.001
+manifest: data/manifest.csv
+max_epochs: 60
+name: per_phase_C_V
+num_workers: 4
+phases:
+- C+V
+seed: 42
+weight_decay: 0.01

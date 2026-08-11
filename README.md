@@ -5,6 +5,12 @@ from multi-phase MRI, with a phase-ablation study as the central scientific deli
 
 ---
 
+## Summary
+
+This is a proof-of-concept study of benign versus malignant liver lesion classification from multi-phase MRI, using the LLD-MMRI-MedSAM2 dataset (498 patients, 7 lesion classes, 8 phases per patient). The central question is which phases carry the diagnostic signal, asked without assuming the answer in advance. Twelve configurations were evaluated (four ablation sets and eight single-phase models), each using a shared-encoder 3D CNN on lesion ROI crops, patient-level stratified splits, and 1 000-resample bootstrap CIs. The four dynamic contrast phases match the full eight-phase model at AUROC 0.838 and have better calibration (ECE 0.119 vs 0.202); the remaining phases add no measurable benefit at this sample size. Arterial phase alone ranks among the weakest single phases, consistent with the pooled malignant label (HCC, ICC, and metastasis): arterial hyperenhancement is specific to HCC, whereas delayed and venous washout is shared across all three classes. Predicted probabilities are miscalibrated (ECE 0.202 for the 8-phase model) and are not suitable for risk communication without recalibration. The project was built over four evenings as a self-directed exercise ahead of a research assistant application; development was assisted by Claude Code, and all design decisions and interpretation are my own.
+
+---
+
 ## Clinical framing
 
 Dynamic contrast-enhanced MRI is the primary non-invasive tool for liver lesion characterisation.
@@ -142,13 +148,6 @@ bash scripts/run_eval.sh
 - Cache build (3 984 volumes): approx. 45 min (CPU-bound; machine-dependent)
 - Full 12-config training suite (`bash scripts/run_all_gpu.sh`): approx. 15 min
 - Evaluation (bootstrap CIs, calibration, Grad-CAM): approx. 2 min
-
-**Built over four evenings as a self-directed exercise to address a stated gap in my
-clinical-AI experience before the Cambridge RA application.**
-
----
-
-Development was assisted by Claude Code; all design decisions, data verification, and interpretation are my own.
 
 ---
 

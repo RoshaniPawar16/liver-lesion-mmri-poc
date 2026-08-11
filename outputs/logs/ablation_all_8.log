@@ -1,0 +1,90 @@
+=== ablation_all_8 ===
+Device: cuda  |  Run: ablation_all_8  |  Phases: ['C-pre', 'C+A', 'C+V', 'C+Delay', 'T2WI', 'DWI', 'InPhase', 'OutPhase']
+Model parameters: 1,688,098
+Traceback (most recent call last):
+  File "/home/roshani/liver-lesion-mmri-poc/src/train.py", line 307, in <module>
+    main()
+  File "/home/roshani/liver-lesion-mmri-poc/src/train.py", line 212, in main
+    scaler = torch.amp.GradScaler(enabled=(device.type == "cuda"))
+             ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'torch.amp' has no attribute 'GradScaler'
+FAILED (exit 1)
+=== ablation_all_8 ===
+Device: cuda  |  Run: ablation_all_8  |  Phases: ['C-pre', 'C+A', 'C+V', 'C+Delay', 'T2WI', 'DWI', 'InPhase', 'OutPhase']
+Model parameters: 1,688,098
+Ep   0  tr_loss=1.1035 auroc=0.5550  val_loss=0.6681 auroc=0.6711  6.3s
+  → new best val AUROC: 0.6711
+Ep   1  tr_loss=0.7196 auroc=0.5863  val_loss=0.7087 auroc=0.6570  5.3s
+Ep   2  tr_loss=0.6992 auroc=0.6311  val_loss=0.6218 auroc=0.6811  5.2s
+  → new best val AUROC: 0.6811
+Ep   3  tr_loss=0.6463 auroc=0.6806  val_loss=0.6774 auroc=0.6660  5.2s
+Ep   4  tr_loss=0.6438 auroc=0.6807  val_loss=0.6269 auroc=0.6942  5.2s
+  → new best val AUROC: 0.6942
+Ep   5  tr_loss=0.6381 auroc=0.7101  val_loss=0.6157 auroc=0.7005  5.1s
+  → new best val AUROC: 0.7005
+Ep   6  tr_loss=0.6293 auroc=0.7327  val_loss=0.6222 auroc=0.7387  5.1s
+  → new best val AUROC: 0.7387
+Ep   7  tr_loss=0.6446 auroc=0.6879  val_loss=0.6378 auroc=0.7199  5.2s
+Ep   8  tr_loss=0.6338 auroc=0.6930  val_loss=0.6219 auroc=0.7274  5.2s
+Ep   9  tr_loss=0.5997 auroc=0.7455  val_loss=0.5981 auroc=0.7450  5.2s
+  → new best val AUROC: 0.7450
+Ep  10  tr_loss=0.5739 auroc=0.7673  val_loss=0.5999 auroc=0.7976  5.1s
+  → new best val AUROC: 0.7976
+Ep  11  tr_loss=0.5850 auroc=0.7670  val_loss=0.5672 auroc=0.7719  5.2s
+Ep  12  tr_loss=0.5473 auroc=0.8025  val_loss=0.5833 auroc=0.8039  5.1s
+  → new best val AUROC: 0.8039
+Ep  13  tr_loss=0.5933 auroc=0.7676  val_loss=0.5884 auroc=0.8221  5.1s
+  → new best val AUROC: 0.8221
+Ep  14  tr_loss=0.5382 auroc=0.8266  val_loss=0.5167 auroc=0.8377  5.0s
+  → new best val AUROC: 0.8377
+Ep  15  tr_loss=0.5340 auroc=0.8146  val_loss=0.6854 auroc=0.7951  5.1s
+Ep  16  tr_loss=0.5108 auroc=0.8276  val_loss=0.4882 auroc=0.8358  5.1s
+Ep  17  tr_loss=0.4652 auroc=0.8652  val_loss=0.5797 auroc=0.8377  5.2s
+  → new best val AUROC: 0.8377
+Ep  18  tr_loss=0.4421 auroc=0.8784  val_loss=0.5373 auroc=0.8462  5.1s
+  → new best val AUROC: 0.8462
+Ep  19  tr_loss=0.4705 auroc=0.8588  val_loss=0.5316 auroc=0.8252  5.1s
+Ep  20  tr_loss=0.4543 auroc=0.8731  val_loss=0.5753 auroc=0.8214  5.3s
+Ep  21  tr_loss=0.4569 auroc=0.8691  val_loss=0.5231 auroc=0.8471  5.2s
+  → new best val AUROC: 0.8471
+Ep  22  tr_loss=0.4131 auroc=0.8945  val_loss=0.7545 auroc=0.8346  5.2s
+Ep  23  tr_loss=0.4527 auroc=0.8665  val_loss=0.5905 auroc=0.8371  5.1s
+Ep  24  tr_loss=0.3894 auroc=0.9087  val_loss=0.6452 auroc=0.8427  5.3s
+Ep  25  tr_loss=0.3867 auroc=0.9049  val_loss=0.6024 auroc=0.8546  5.3s
+  → new best val AUROC: 0.8546
+Ep  26  tr_loss=0.3550 auroc=0.9229  val_loss=0.7069 auroc=0.8396  5.1s
+Ep  27  tr_loss=0.4042 auroc=0.8976  val_loss=0.6340 auroc=0.8258  5.1s
+Ep  28  tr_loss=0.4484 auroc=0.8741  val_loss=0.6683 auroc=0.8474  5.1s
+Ep  29  tr_loss=0.3586 auroc=0.9333  val_loss=0.5847 auroc=0.8352  5.2s
+Ep  30  tr_loss=0.3781 auroc=0.9172  val_loss=1.0078 auroc=0.8565  5.2s
+  → new best val AUROC: 0.8565
+Ep  31  tr_loss=0.3804 auroc=0.9088  val_loss=0.5960 auroc=0.8515  5.1s
+Ep  32  tr_loss=0.3108 auroc=0.9426  val_loss=0.7482 auroc=0.8546  5.1s
+Ep  33  tr_loss=0.3572 auroc=0.9209  val_loss=0.7037 auroc=0.8703  5.2s
+  → new best val AUROC: 0.8703
+Ep  34  tr_loss=0.3180 auroc=0.9394  val_loss=0.5956 auroc=0.8390  5.2s
+Ep  35  tr_loss=0.2854 auroc=0.9537  val_loss=0.6544 auroc=0.8678  5.1s
+Ep  36  tr_loss=0.3024 auroc=0.9483  val_loss=1.1966 auroc=0.8484  5.3s
+Ep  37  tr_loss=0.3657 auroc=0.9217  val_loss=0.7116 auroc=0.8340  5.3s
+Ep  38  tr_loss=0.3405 auroc=0.9326  val_loss=0.5643 auroc=0.8521  5.1s
+Ep  39  tr_loss=0.2918 auroc=0.9537  val_loss=0.6471 auroc=0.8415  5.2s
+Ep  40  tr_loss=0.2674 auroc=0.9563  val_loss=0.8126 auroc=0.8665  5.2s
+Ep  41  tr_loss=0.2810 auroc=0.9514  val_loss=0.9154 auroc=0.8665  5.3s
+Ep  42  tr_loss=0.2762 auroc=0.9538  val_loss=0.6016 auroc=0.8578  5.3s
+Ep  43  tr_loss=0.2448 auroc=0.9672  val_loss=0.7687 auroc=0.8753  5.2s
+  → new best val AUROC: 0.8753
+Ep  44  tr_loss=0.3013 auroc=0.9454  val_loss=0.6364 auroc=0.8741  5.2s
+Ep  45  tr_loss=0.2580 auroc=0.9620  val_loss=0.8363 auroc=0.8741  5.1s
+Ep  46  tr_loss=0.2653 auroc=0.9578  val_loss=0.7341 auroc=0.8709  5.3s
+Ep  47  tr_loss=0.2195 auroc=0.9724  val_loss=0.7632 auroc=0.8747  5.2s
+Ep  48  tr_loss=0.2174 auroc=0.9727  val_loss=1.0022 auroc=0.8521  5.2s
+Ep  49  tr_loss=0.2198 auroc=0.9716  val_loss=0.7969 auroc=0.8521  5.2s
+Ep  50  tr_loss=0.2245 auroc=0.9706  val_loss=1.3090 auroc=0.8484  5.3s
+Ep  51  tr_loss=0.2683 auroc=0.9552  val_loss=1.2620 auroc=0.8609  5.1s
+Ep  52  tr_loss=0.2397 auroc=0.9666  val_loss=0.6328 auroc=0.8684  5.4s
+Ep  53  tr_loss=0.2336 auroc=0.9677  val_loss=0.9217 auroc=0.8540  5.4s
+Early stopping at epoch 53 (patience=10)
+
+Predictions → outputs/runs/ablation_all_8/predictions.csv
+Done.  Best val AUROC: 0.8753
+DONE
