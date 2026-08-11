@@ -9,9 +9,8 @@ from multi-phase MRI, with a phase-ablation study as the central scientific deli
 
 Dynamic contrast-enhanced MRI is the primary non-invasive tool for liver lesion characterisation.
 The canonical HCC signature (arterial-phase hyperenhancement followed by venous or delayed washout)
-underpins current LIRADS and EASL criteria.
-This project asks two related questions: how much classification signal lives in the full
-eight-phase protocol, and which phases contribute most, without assuming the answer in advance.
+underpins current LI-RADS and EASL criteria.
+This project asks two related questions: how much classification signal lives in the full eight-phase protocol, and which phases contribute most. Neither answer is assumed in advance.
 
 ---
 
@@ -25,8 +24,8 @@ Data are not redistributed here; download via `bash scripts/download_data.sh`.
 - 7 lesion classes: hemangioma (n=79), ICC (n=58), abscess (n=54), metastasis (n=51),
   cyst (n=53), FNH (n=46), HCC (n=157).
 - Binary: benign = 232 patients, malignant = 266 patients.
-- Segmentation masks are MedSAM2-generated (model-assisted, human-in-the-loop) and are used
-  **only for ROI cropping**, never as ground-truth to evaluate against.
+- Segmentation masks are MedSAM2-generated (model-assisted, human-in-the-loop). They are used
+  **only for ROI cropping**, not as ground-truth for evaluation.
 - Single-centre Chinese cohort (Zhongshan Hospital); findings may not generalise directly.
 
 **Splits:** No official split exists in the annotation JSON (verified).
@@ -61,58 +60,55 @@ Numbers are read directly from `reports/results_summary.csv`.
 
 | Phase set | n phases | AUROC (95 % CI) | AUPRC (95 % CI) | Sens | Spec |
 |-----------|----------|-----------------|-----------------|------|------|
-| T2WI + DWI | 2 | <!-- RESULT: ablation_t2wi_dwi_auroc --> | <!-- RESULT: ablation_t2wi_dwi_auprc --> | <!-- RESULT: ablation_t2wi_dwi_sens --> | <!-- RESULT: ablation_t2wi_dwi_spec --> |
-| C-pre + C+A | 2 | <!-- RESULT: ablation_pre_a_auroc --> | <!-- RESULT: ablation_pre_a_auprc --> | <!-- RESULT: ablation_pre_a_sens --> | <!-- RESULT: ablation_pre_a_spec --> |
-| Contrast 4-phase | 4 | <!-- RESULT: ablation_contrast_4phase_auroc --> | <!-- RESULT: ablation_contrast_4phase_auprc --> | <!-- RESULT: ablation_contrast_4phase_sens --> | <!-- RESULT: ablation_contrast_4phase_spec --> |
-| **All 8 phases** | **8** | <!-- RESULT: ablation_all_8_auroc --> | <!-- RESULT: ablation_all_8_auprc --> | <!-- RESULT: ablation_all_8_sens --> | <!-- RESULT: ablation_all_8_spec --> |
+| T2WI + DWI | 2 | 0.722 [0.614-0.826] | 0.703 [0.582-0.827] | 0.929 | 0.551 |
+| C-pre + C+A | 2 | 0.703 [0.597-0.798] | 0.744 [0.616-0.849] | 0.536 | 0.837 |
+| Contrast 4-phase | 4 | 0.838 [0.761-0.907] | 0.860 [0.773-0.929] | 0.804 | 0.735 |
+| **All 8 phases** | **8** | 0.838 [0.753-0.914] | 0.821 [0.715-0.917] | 0.911 | 0.735 |
 
 ### Per-phase: Experiment B (secondary)
 
 | Phase | AUROC (95 % CI) |
 |-------|-----------------|
-| C-pre | <!-- RESULT: per_phase_C_pre_auroc --> |
-| C+A (arterial) | <!-- RESULT: per_phase_C_A_auroc --> |
-| C+V (venous) | <!-- RESULT: per_phase_C_V_auroc --> |
-| C+Delay | <!-- RESULT: per_phase_C_Delay_auroc --> |
-| T2WI | <!-- RESULT: per_phase_T2WI_auroc --> |
-| DWI | <!-- RESULT: per_phase_DWI_auroc --> |
-| InPhase | <!-- RESULT: per_phase_InPhase_auroc --> |
-| OutPhase | <!-- RESULT: per_phase_OutPhase_auroc --> |
+| C-pre | 0.669 [0.560-0.769] |
+| C+A (arterial) | 0.673 [0.564-0.767] |
+| C+V (venous) | 0.776 [0.681-0.865] |
+| C+Delay | 0.787 [0.694-0.868] |
+| T2WI | 0.701 [0.589-0.803] |
+| DWI | 0.629 [0.523-0.736] |
+| InPhase | 0.778 [0.685-0.863] |
+| OutPhase | 0.707 [0.595-0.807] |
 
-> **Fill these numbers:** after running experiments on Kaggle/Colab, copy `reports/results_summary.csv`
-> into `reports/` and run `python src/fill_readme.py` to replace the `<!-- RESULT: ... -->` placeholders.
+### Calibration (8-phase model)
 
-### Calibration (best model)
+![Calibration curve (8-phase model)](reports/figures/calibration_best_model.png)
 
-![Calibration curve](reports/figures/calibration_best_model.png)
-
-ECE (best model): <!-- RESULT: best_ece -->
+ECE: 0.202 (8-phase model, shown); 0.119 (4-phase model).
 
 ### Interpretation
 
-**Headline.** The four dynamic contrast phases (C-pre, C+A, C+V, C+Delay) account for essentially all the discriminative signal in this dataset. The 8-phase and 4-phase contrast models reach identical AUROC (0.838); the 4-phase model also has better AUPRC and ECE (0.12 vs 0.20), so the four additional sequences (T2WI, DWI, InPhase, OutPhase) confer no measurable benefit at this sample size.
+**Headline.** The four dynamic contrast phases (C-pre, C+A, C+V, C+Delay) account for essentially all the discriminative signal in this dataset. The 8-phase and 4-phase contrast models reach identical AUROC (0.838). The 4-phase model has better AUPRC and ECE (0.12 vs 0.20). The four additional sequences (T2WI, DWI, InPhase, OutPhase) confer no measurable benefit at this sample size.
 
-**Per-phase pattern.** In single-phase ablations, delayed (C+Delay) and venous (C+V) phases rank among the strongest, while arterial alone (C+A) is among the weakest. This pattern is consistent with the pooled malignant class composition: HCC, ICC, and metastasis are all labelled malignant. Arterial hyperenhancement is a signature of HCC (the basis of LIRADS criteria) but is not characteristic of ICC or metastasis; delayed and venous phases capture washout, a feature shared more broadly across the pooled malignant classes. A classifier trained on the pooled label therefore extracts less discriminating information from arterial phase alone than from washout-phase images.
+**Per-phase pattern.** In single-phase ablations, delayed (C+Delay) and venous (C+V) phases rank among the strongest, while arterial alone (C+A) is among the weakest. This pattern is consistent with the pooled malignant class composition: HCC, ICC, and metastasis are all labelled malignant. Arterial hyperenhancement is a signature of HCC (the basis of LI-RADS criteria) but is not characteristic of ICC or metastasis. Delayed and venous phases capture washout, a feature shared more broadly across the pooled malignant classes. A classifier trained on the pooled label therefore extracts less discriminating information from arterial phase alone than from washout-phase images.
 
-**Calibration.** ECE is 0.20 (8-phase) and 0.12 (4-phase). Both models are miscalibrated; predicted probabilities are not suitable for risk communication without recalibration (e.g. isotonic regression or Platt scaling fitted on a dedicated calibration set).
+**Calibration.** ECE is 0.20 (8-phase) and 0.12 (4-phase). Both models are miscalibrated. Predicted probabilities are not suitable for risk communication without recalibration (e.g. isotonic regression or Platt scaling fitted on a dedicated calibration set).
 
-**Caveats.** Bootstrap 95% CIs overlap across most comparisons and no formal significance testing was performed; trends are described descriptively, not as established differences. The val-to-test AUROC gap reflects expected selection optimism from early stopping on validation AUROC.
+**Caveats.** Bootstrap 95% CIs overlap across most comparisons. No formal significance testing was performed. Trends are described as observations, not established differences. The val-to-test AUROC gap reflects expected selection optimism from early stopping on validation AUROC.
 
 ### Grad-CAM and failure cases
 
-Montage PNGs are in `reports/figures/`. Failure observations are in `reports/failure_analysis.md`.
+Axial-slice montages were generated from the 8-phase model (`outputs/runs/ablation_all_8`) on six test cases. Four are correctly classified (MR104842, MR107127, MR109260, MR117743) and two are misclassified (MR113033, MR130096). Montage PNGs are in `reports/figures/`; per-case Grad-CAM observations are in `reports/failure_analysis.md`.
 
 ---
 
 ## Limitations
 
-- **Single centre** (Zhongshan Hospital, China): ethnic, scanner, and protocol diversity not represented.
+- **Single-centre Chinese cohort** (acquisition details in Lou et al. 2025): ethnic, scanner, and protocol diversity not represented.
 - **ROI cropping presupposes detection**: the pipeline starts from MedSAM2-generated masks. In clinical reality, lesions must first be found.
 - **Per-phase ROI extraction, no cross-phase voxel registration**: bounding boxes are computed from each phase's own segmentation mask independently. No cross-phase voxel registration is performed; multi-lesion correspondence is by lesion identity (same patient, same annotation) not by voxel alignment.
 - **One random seed**: results should be confirmed across multiple seeds before drawing quantitative conclusions.
 - **No radiologist review**: model errors are characterised post-hoc from predictions, not from expert re-reads.
 - **MedSAM2 masks are model-generated** (human-in-the-loop but not fully manual): mask quality directly affects crop quality.
-- **DWI native resolution**: DWI volumes are 256 x 256 x 24 (vs 512 x 512 x 72 for other phases). After ROI crop and resample to 32 x 64 x 64, the DWI crop covers a smaller physical footprint. This affects crop quality relative to other phases and is a recognised limitation.
+- **DWI native resolution**: DWI volumes are 256 x 256 x 24 (vs 512 x 512 x 72 for other phases). After ROI crop and resample to 32 x 64 x 64, the DWI crop covers a smaller physical footprint. This affects crop quality relative to other phases.
 
 ---
 
